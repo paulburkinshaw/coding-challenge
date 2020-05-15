@@ -35,6 +35,8 @@ namespace ConstructionLine.CodingChallenge
                 ColorCounts = (from colour in Color.All select new ColorCount { Color = colour }).ToList()
             };
 
+            if (_shirts == null)
+                return searchResults;
 
             var filteredShirts = from shirt in _shirts
                                  where (options.Colors == null || !options.Colors.Any() || options.Colors.Any(c => c == shirt.Color)) &&

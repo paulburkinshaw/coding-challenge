@@ -310,7 +310,7 @@ namespace ConstructionLine.CodingChallenge.Tests
             }
 
             [Test]
-            public void When_no_colours_or_sizes_specified_And_shirts_available_Should_return_all_available_shirts()
+            public void When_no_search_options_And_shirts_available_Should_return_all_available_shirts()
             {
                 var shirts = new List<Shirt>
                 {
@@ -331,6 +331,58 @@ namespace ConstructionLine.CodingChallenge.Tests
                 AssertResults(results.Shirts, searchOptions);
                 AssertSizeCounts(shirts, searchOptions, results.SizeCounts);
                 AssertColorCounts(shirts, searchOptions, results.ColorCounts);
+            }
+
+            [Test]
+            public void When_colours_and_sizes_specified_And_no_shirts_available_Should_return_empty_search_results()
+            {
+                var shirts = new List<Shirt>();
+
+                var searchEngine = new SearchEngine(shirts);
+
+                var searchOptions = new SearchOptions
+                {
+                    Colors = new List<Color> { Color.Red },
+                    Sizes = new List<Size> { Size.Small }
+                };
+
+                var results = searchEngine.Search(searchOptions);
+
+                AssertResults(results.Shirts, searchOptions);
+                AssertSizeCounts(shirts, searchOptions, results.SizeCounts);
+                AssertColorCounts(shirts, searchOptions, results.ColorCounts);
+            }
+
+            [Test]
+            public void When_no_search_options_And_no_shirts_available_Should_return_empty_search_results()
+            {
+                var shirts = new List<Shirt>();
+
+                var searchEngine = new SearchEngine(shirts);
+
+                var searchOptions = new SearchOptions();
+
+                var results = searchEngine.Search(searchOptions);
+
+                AssertResults(results.Shirts, searchOptions);
+                AssertSizeCounts(shirts, searchOptions, results.SizeCounts);
+                AssertColorCounts(shirts, searchOptions, results.ColorCounts);
+            }
+
+            [Test]
+            public void When_shirts_is_null_Should_return_empty_search_results()
+            {
+                List<Shirt> shirts = null;
+
+                var searchEngine = new SearchEngine(shirts);
+
+                var searchOptions = new SearchOptions();
+
+                var results = searchEngine.Search(searchOptions);
+
+                AssertResults(results.Shirts, searchOptions);
+                AssertSizeCounts(new List<Shirt>(), searchOptions, results.SizeCounts);
+                AssertColorCounts(new List<Shirt>(), searchOptions, results.ColorCounts);
             }
 
             #endregion
